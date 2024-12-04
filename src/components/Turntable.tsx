@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Play, Pause, Volume2 } from 'lucide-react';
 import { Slider } from "@/components/ui/slider";
+import AudioVisualizer from './AudioVisualizer';
 
 interface TurntableProps {
   side: 'left' | 'right';
@@ -60,28 +61,32 @@ const Turntable = ({ side }: TurntableProps) => {
         </div>
       </div>
       
-      <div className="mt-6 flex items-center gap-4">
-        <button
-          onClick={togglePlayPause}
-          className="p-2 rounded-full bg-dj-neonBlue/20 hover:bg-dj-neonBlue/40 transition-colors"
-        >
-          {isPlaying ? (
-            <Pause className="w-6 h-6 text-dj-neonBlue" />
-          ) : (
-            <Play className="w-6 h-6 text-dj-neonBlue" />
-          )}
-        </button>
-        
-        <div className="flex items-center gap-2">
-          <Volume2 className="w-4 h-4 text-dj-neonBlue" />
-          <Slider
-            value={volume}
-            onValueChange={handleVolumeChange}
-            max={100}
-            step={1}
-            className="w-24"
-          />
+      <div className="mt-6 w-full space-y-4">
+        <div className="flex items-center gap-4">
+          <button
+            onClick={togglePlayPause}
+            className="p-2 rounded-full bg-dj-neonBlue/20 hover:bg-dj-neonBlue/40 transition-colors"
+          >
+            {isPlaying ? (
+              <Pause className="w-6 h-6 text-dj-neonBlue" />
+            ) : (
+              <Play className="w-6 h-6 text-dj-neonBlue" />
+            )}
+          </button>
+          
+          <div className="flex items-center gap-2">
+            <Volume2 className="w-4 h-4 text-dj-neonBlue" />
+            <Slider
+              value={volume}
+              onValueChange={handleVolumeChange}
+              max={100}
+              step={1}
+              className="w-24"
+            />
+          </div>
         </div>
+
+        {audioFile && <AudioVisualizer audioRef={audioRef} />}
       </div>
 
       <audio ref={audioRef} className="hidden" />
